@@ -5,10 +5,12 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator 'iPhone 13'",
     "start": "react-native start"
   },
   "dependencies": {
+    "@react-native-community/hooks": "^2.8.1",
+    "@react-native-community/slider": "^4.2.1",
     "react": "16.13.1",
     "react-native": "0.63.4"
   },

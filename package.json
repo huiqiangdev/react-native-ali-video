@@ -143,5 +143,10 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@react-native-community/hooks": "^2.8.1",
+    "@react-native-community/slider": "^4.2.1",
+    "react-native-gesture-handler": "^2.3.2"
   }
 }

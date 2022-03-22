@@ -21,7 +21,7 @@ def safeExtGet(prop, fallback) {
 android {
     compileSdkVersion safeExtGet('AliVideo_compileSdkVersion', 29)
     defaultConfig {
-        minSdkVersion safeExtGet('AliVideo_minSdkVersion', 16)
+        minSdkVersion safeExtGet('AliVideo_minSdkVersion', 18)
         targetSdkVersion safeExtGet('AliVideo_targetSdkVersion', 29)
         versionCode 1
         versionName "1.0"
@@ -56,4 +56,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.aliyun.sdk.android:AliyunPlayer:5.4.5.0-full"
+    implementation "com.android.support:support-v4:26.1.0"
+    implementation "com.android.support:appcompat-v7:26.1.0"
 }
