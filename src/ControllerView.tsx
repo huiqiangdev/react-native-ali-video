@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -15,6 +15,8 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+import { useSafeState } from 'ahooks';
+
 function formatTime(second: number) {
   let i = 0,
     s = second;
@@ -40,11 +42,11 @@ const ControllerView = ({
   onBack,
   title,
 }: ControllerViewProps) => {
-  const [hide, setHide] = useState(false);
-  const [width, setWidth] = useState(0);
-  const [showSliderTips, setShowSliderTips] = useState(false);
-  const [sliderValue, setSliderValue] = useState(current);
-  const [autoHide, setAutoHide] = useState(true); /// 自动隐藏
+  const [hide, setHide] = useSafeState(false);
+  const [width, setWidth] = useSafeState(0);
+  const [showSliderTips, setShowSliderTips] = useSafeState(false);
+  const [sliderValue, setSliderValue] = useSafeState(current);
+  const [autoHide, setAutoHide] = useSafeState(true); /// 自动隐藏
   const onValueChange = (value: number) => {
     setSliderValue(Math.round(value));
     onSliderValueChange?.(value);
@@ -55,15 +57,15 @@ const ControllerView = ({
         setHide(true);
       }, 4000);
     }
-  }, [hide, autoHide]);
+  }, [hide, autoHide, setHide]);
   useEffect(() => {
     if (!isLoading) {
       setHide(false);
     }
-  }, [isLoading]);
+  }, [isLoading, setHide]);
   useEffect(() => {
     setSliderValue(current);
-  }, [current]);
+  }, [current, setSliderValue]);
 
   const onSlidingStart = () => {
     setAutoHide(false);
