@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -15,7 +15,6 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
-import { useSafeState } from 'ahooks';
 
 function formatTime(second: number) {
   let i = 0,
@@ -42,27 +41,32 @@ const ControllerView = ({
   onBack,
   title,
 }: ControllerViewProps) => {
-  const [hide, setHide] = useSafeState(false);
-  const [width, setWidth] = useSafeState(0);
-  const [showSliderTips, setShowSliderTips] = useSafeState(false);
-  const [sliderValue, setSliderValue] = useSafeState(current);
-  const [autoHide, setAutoHide] = useSafeState(true); /// 自动隐藏
+  const [hide, setHide] = useState(false);
+  const [width, setWidth] = useState(0);
+  const [showSliderTips, setShowSliderTips] = useState(false);
+  const [sliderValue, setSliderValue] = useState(current);
+  const [autoHide, setAutoHide] = useState(true); /// 自动隐藏
   const onValueChange = (value: number) => {
     setSliderValue(Math.round(value));
     onSliderValueChange?.(value);
   };
+  const timeOutRef = useRef<any>();
   useEffect(() => {
     if (!hide && autoHide) {
-      setTimeout(() => {
+      if (timeOutRef.current) {
+        clearTimeout(timeOutRef.current);
+        timeOutRef.current = null;
+      }
+      timeOutRef.current = setTimeout(() => {
         setHide(true);
       }, 4000);
     }
-  }, [hide, autoHide, setHide]);
+  }, [hide, autoHide]);
   useEffect(() => {
     if (!isLoading) {
       setHide(false);
     }
-  }, [isLoading, setHide]);
+  }, [isLoading]);
   useEffect(() => {
     setSliderValue(current);
   }, [current, setSliderValue]);
@@ -143,20 +147,7 @@ const ControllerView = ({
       );
     }
     if (hide) {
-      return (
-        <>
-          (
-          <View style={styles.top}>
-            <TouchableOpacity onPress={onBack}>
-              <Image
-                style={styles.topLeftIcon}
-                source={require('./assets/chevron-down.png')}
-              />
-            </TouchableOpacity>
-          </View>
-          )
-        </>
-      );
+      return null;
     }
     return (
       <>

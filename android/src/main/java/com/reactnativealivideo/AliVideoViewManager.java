@@ -106,6 +106,7 @@ public class AliVideoViewManager extends ViewGroupManager<AliyunRenderView> {
   public void onDropViewInstance(AliyunRenderView view) {
     super.onDropViewInstance(view);
     Log.i(TAG, "onDropViewInstance: ");
+    view.release();
   }
 
   @Override
