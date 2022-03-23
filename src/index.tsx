@@ -30,6 +30,7 @@ const VideoPlayer = forwardRef(
       onError,
       style,
       title,
+      onBack,
       isLandscape,
       ...rest
     }: VideoPlayerProps,
@@ -229,6 +230,7 @@ const VideoPlayer = forwardRef(
           isLoading={loading}
           isStart={isPlaying}
           total={duration}
+          onBack={onBack}
         />
       </View>
     );

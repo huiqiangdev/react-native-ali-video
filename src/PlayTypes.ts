@@ -9,6 +9,7 @@ export type VideoPlayerProps = AliVideoViewProps & {
    * 播放完成
    */
   onCompletion?: () => void;
+  onBack?: () => void;
   onError?: (code: string, message: string) => void;
   onFullScreen?: (isFull: boolean) => void;
   onProgress?: (progress: number) => void;

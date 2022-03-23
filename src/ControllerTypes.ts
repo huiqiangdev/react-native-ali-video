@@ -11,4 +11,5 @@ export type ControllerViewProps = {
   onPause?: () => void;
   onFull?: () => void;
   title?: string;
+  onBack?: () => void;
 };

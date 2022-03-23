@@ -19,7 +19,7 @@ function formatTime(second: number) {
   let i = 0,
     s = second;
   if (s > 60) {
-    i = s / 60;
+    i = Math.round(s / 60);
     s = s % 60;
   }
   // 补零
@@ -37,23 +37,25 @@ const ControllerView = ({
   isLoading,
   onFull,
   onSliderValueChange,
+  onBack,
   title,
 }: ControllerViewProps) => {
   const [hide, setHide] = useState(false);
   const [width, setWidth] = useState(0);
   const [showSliderTips, setShowSliderTips] = useState(false);
   const [sliderValue, setSliderValue] = useState(current);
+  const [autoHide, setAutoHide] = useState(true); /// 自动隐藏
   const onValueChange = (value: number) => {
     setSliderValue(Math.round(value));
     onSliderValueChange?.(value);
   };
   useEffect(() => {
-    if (!hide) {
+    if (!hide && autoHide) {
       setTimeout(() => {
         setHide(true);
       }, 4000);
     }
-  }, [hide]);
+  }, [hide, autoHide]);
   useEffect(() => {
     if (!isLoading) {
       setHide(false);
@@ -64,9 +66,12 @@ const ControllerView = ({
   }, [current]);
 
   const onSlidingStart = () => {
+    setAutoHide(false);
+    setHide(false);
     setShowSliderTips(true);
   };
   const onSlidingComplete = (value: number) => {
+    setAutoHide(true);
     setSliderValue(Math.round(value));
     /// 结束拖动之后慢慢小时
     setTimeout(() => {
@@ -74,11 +79,13 @@ const ControllerView = ({
     }, 500);
   };
   const singleTap = Gesture.Tap()
+    .runOnJS(true)
     .maxDuration(250)
     .onStart(() => {
       setHide(false);
     });
   const doubleTap = Gesture.Tap()
+    .runOnJS(true)
     .maxDuration(250)
     .numberOfTaps(2)
     .onStart(() => {
@@ -86,11 +93,14 @@ const ControllerView = ({
       onPressedStart?.();
     });
   const panGes = Gesture.Pan()
+    .runOnJS(true)
     .onStart(() => {
-      setShowSliderTips(true);
       setHide(false);
+      setAutoHide(false);
+      setShowSliderTips(true);
     })
     .onUpdate((e) => {
+      if (Math.abs(e.translationX) < 15) return;
       setHide(false);
       if (width === 0) return;
       let progress = e.translationX / width;
@@ -110,7 +120,9 @@ const ControllerView = ({
       }
       setSliderValue(targetValue);
     })
-    .onEnd(() => {
+    .onEnd((e) => {
+      setAutoHide(true);
+      if (Math.abs(e.translationX) < 15) return;
       setTimeout(() => {
         setShowSliderTips(false);
       }, 500);
@@ -140,7 +152,7 @@ const ControllerView = ({
             )}`}</Text>
           </View>
         )}
-        {isFull && (
+        {isFull ? (
           <View style={styles.top}>
             <TouchableOpacity onPress={onFull}>
               <Image
@@ -148,6 +160,15 @@ const ControllerView = ({
                 source={require('./assets/chevron-left.png')}
               />
               <Text>{title ?? ''}</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.top}>
+            <TouchableOpacity onPress={onBack}>
+              <Image
+                style={styles.topLeftIcon}
+                source={require('./assets/chevron-down.png')}
+              />
             </TouchableOpacity>
           </View>
         )}
@@ -198,7 +219,9 @@ const ControllerView = ({
       <GestureDetector
         gesture={Gesture.Exclusive(doubleTap, singleTap, panGes)}
       >
-        <View style={styles.container}>{renderContainer()}</View>
+        <View collapsable={false} style={styles.container}>
+          {renderContainer()}
+        </View>
       </GestureDetector>
     </GestureHandlerRootView>
   );
@@ -224,8 +247,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   topLeftIcon: {
-    width: 30,
-    height: 30,
+    width: 36,
+    height: 36,
   },
   bottom: {
     position: 'absolute',
