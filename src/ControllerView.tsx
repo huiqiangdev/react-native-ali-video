@@ -143,7 +143,20 @@ const ControllerView = ({
       );
     }
     if (hide) {
-      return null;
+      return (
+        <>
+          (
+          <View style={styles.top}>
+            <TouchableOpacity onPress={onBack}>
+              <Image
+                style={styles.topLeftIcon}
+                source={require('./assets/chevron-down.png')}
+              />
+            </TouchableOpacity>
+          </View>
+          )
+        </>
+      );
     }
     return (
       <>

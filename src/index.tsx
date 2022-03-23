@@ -32,6 +32,14 @@ const VideoPlayer = forwardRef(
       title,
       onBack,
       isLandscape,
+      onAliBufferedPositionUpdate,
+      onAliCurrentPositionUpdate,
+      onAliLoadingBegin,
+      onAliCompletion,
+      onAliLoadingEnd,
+      onAliError,
+      onAliPrepared,
+      onAliRenderingStart,
       ...rest
     }: VideoPlayerProps,
     ref: React.Ref<VideoPlayerHandler>
@@ -110,43 +118,51 @@ const VideoPlayer = forwardRef(
     useEffect(() => {
       setPlaySource(source);
     }, [source]);
-    const onAliPrepared = (e: NativeSyntheticEvent<{ duration: number }>) => {
+    const _onAliPrepared = (e: NativeSyntheticEvent<{ duration: number }>) => {
       setDuration(e.nativeEvent.duration);
       setCurrentTime(0);
       setBuffer(0);
       onPrepare?.(e.nativeEvent.duration);
+      onAliPrepared?.(e);
     };
-    const onAliLoadingBegin = () => {
+    const _onAliLoadingBegin = (e: NativeSyntheticEvent<{}>) => {
       setLoading(true);
+      onAliLoadingBegin?.(e);
     };
-    const onAliLoadingEnd = () => {
+    const _onAliLoadingEnd = (e: NativeSyntheticEvent<{}>) => {
       setLoading(false);
+      onAliLoadingEnd?.(e);
     };
-    const onAliRenderingStart = () => {
+    const _onAliRenderingStart = (e: NativeSyntheticEvent<{}>) => {
       setLoading(false);
       setIsPlaying(true);
+      onAliRenderingStart?.(e);
     };
-    const onAliCurrentPositionUpdate = (
+    const _onAliCurrentPositionUpdate = (
       e: NativeSyntheticEvent<{ position: number }>
     ) => {
       setCurrentTime(e.nativeEvent.position);
       onProgress?.(e.nativeEvent.position);
+      onAliCurrentPositionUpdate?.(e);
     };
-    const onAliBufferedPositionUpdate = (
+    const _onAliBufferedPositionUpdate = (
       e: NativeSyntheticEvent<{ position: number }>
     ) => {
       setBuffer(e.nativeEvent.position);
       onBufferProgress?.(e.nativeEvent.position);
+      onAliBufferedPositionUpdate?.(e);
     };
-    const onAliCompletion = () => {
+    const _onAliCompletion = (e: NativeSyntheticEvent<{}>) => {
       setIsPlaying(false);
       setComplete(true);
       onCompletion?.();
+      onAliCompletion?.(e);
     };
-    const onAliError = (
+    const _onAliError = (
       e: NativeSyntheticEvent<{ code: string; message: string }>
     ) => {
       onError?.(e.nativeEvent.code, e.nativeEvent.message);
+      onAliError?.(e);
     };
     const onSliderValueChange = (value: number) => {
       if (complete) {
@@ -205,14 +221,14 @@ const VideoPlayer = forwardRef(
         <AliVideoView
           style={isFull ? fullWindowStyle : StyleSheet.absoluteFill}
           source={playSource}
-          onAliBufferedPositionUpdate={onAliBufferedPositionUpdate}
-          onAliLoadingBegin={onAliLoadingBegin}
-          onAliLoadingEnd={onAliLoadingEnd}
-          onAliPrepared={onAliPrepared}
-          onAliRenderingStart={onAliRenderingStart}
-          onAliCurrentPositionUpdate={onAliCurrentPositionUpdate}
-          onAliCompletion={onAliCompletion}
-          onAliError={onAliError}
+          onAliBufferedPositionUpdate={_onAliBufferedPositionUpdate}
+          onAliLoadingBegin={_onAliLoadingBegin}
+          onAliLoadingEnd={_onAliLoadingEnd}
+          onAliPrepared={_onAliPrepared}
+          onAliRenderingStart={_onAliRenderingStart}
+          onAliCurrentPositionUpdate={_onAliCurrentPositionUpdate}
+          onAliCompletion={_onAliCompletion}
+          onAliError={_onAliError}
           {...rest}
           ref={videoRef}
         />
