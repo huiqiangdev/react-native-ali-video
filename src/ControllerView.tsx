@@ -140,10 +140,22 @@ const ControllerView = ({
   const renderContainer = () => {
     if (isLoading) {
       return (
-        <View style={styles.loading}>
-          <ActivityIndicator color={'#FFFFFF'} animating />
-          <Text style={styles.loadingText}>正在加载中...</Text>
-        </View>
+        <>
+          {!isFull && (
+            <View style={styles.top}>
+              <TouchableOpacity onPress={onBack}>
+                <Image
+                  style={styles.topLeftIcon}
+                  source={require('./assets/chevron-down.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={styles.loading}>
+            <ActivityIndicator color={'#FFFFFF'} animating />
+            <Text style={styles.loadingText}>正在加载中...</Text>
+          </View>
+        </>
       );
     }
     if (hide) {

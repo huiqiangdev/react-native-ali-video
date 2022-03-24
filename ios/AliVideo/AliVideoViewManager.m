@@ -4,7 +4,6 @@
 #import "AliVideoPlayer.h"
 
 @interface AliVideoViewManager : RCTViewManager
-@property (strong, nonatomic) AliVideoPlayer *player;
 @end
 
 @implementation AliVideoViewManager
@@ -88,13 +87,7 @@ RCT_EXPORT_METHOD(seekTo:(nonnull NSNumber *) reactTag viewId:(nonnull NSNumber 
 - (UIView *)view
 {
     AliVideoPlayer * player = [[AliVideoPlayer alloc] init];
-    self.player = player;
     return player;
-}
-- (void)dealloc {
-    if (self.player) {
-        [self.player releasePlayer];
-    }
 }
 
 //RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
