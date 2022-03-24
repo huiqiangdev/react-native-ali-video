@@ -15,9 +15,6 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm}"
   s.static_framework = true
-  s.resource_bundles = {
-      'AliVideo' => ['assets/Player/*.png']
-  }
 
   s.dependency "React-Core"
   s.dependency 'AliPlayerSDK_iOS', '5.4.4.1'

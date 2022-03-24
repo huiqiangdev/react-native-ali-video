@@ -1,6 +1,6 @@
 import type { AliVideoViewProps } from './VideoTypes';
 
-export type VideoPlayerProps = AliVideoViewProps & {
+export type VideoPlayerProps = Omit<AliVideoViewProps, 'ref'> & {
   /**
    * 视频播放
    */

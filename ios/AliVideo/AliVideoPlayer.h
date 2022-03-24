@@ -8,7 +8,6 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTComponent.h>
 #import <AliyunPlayer/AliyunPlayer.h>
-#import "AliyunVodPlayerViewDefine.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,11 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) RCTBubblingEventBlock onAliLoopingStart;
 @property (nonatomic, copy) RCTBubblingEventBlock onAliFullScreen;
 
-/**
- 功能：初始化界面皮肤
- 备注：默认皮肤为蓝色
- */
-@property (nonatomic, assign) AliyunVodPlayerViewSkin viewSkin;
 
 /**
  * 功能：循环播放控制
