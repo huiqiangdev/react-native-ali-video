@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   bottom: {
     position: 'absolute',
     right: 10,
-    bottom: 0,
+    bottom: 25,
     left: 10,
     flexDirection: 'row',
     alignItems: 'center',
