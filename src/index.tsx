@@ -40,6 +40,8 @@ const VideoPlayer = forwardRef(
       onAliError,
       onAliPrepared,
       onAliRenderingStart,
+      isHiddenBack,
+      isHiddenFullBack,
       ...rest
     }: VideoPlayerProps,
     ref: React.Ref<VideoPlayerHandler>
@@ -241,6 +243,8 @@ const VideoPlayer = forwardRef(
           current={currentTime}
           isFull={isFull}
           onFull={onFull}
+          isHiddenBack={isHiddenBack}
+          isHiddenFullBack={isHiddenFullBack}
           buffer={buffer}
           isError={false}
           isLoading={loading}

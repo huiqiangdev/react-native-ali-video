@@ -12,4 +12,12 @@ export type ControllerViewProps = {
   onFull?: () => void;
   title?: string;
   onBack?: () => void;
+  /**
+   * 是否隐藏返回按钮
+   */
+  isHiddenBack?: boolean;
+  /**
+   * 是否隐藏全屏返回按钮
+   */
+  isHiddenFullBack?: boolean;
 };

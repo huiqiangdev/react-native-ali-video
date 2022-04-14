@@ -16,6 +16,14 @@ export type VideoPlayerProps = Omit<AliVideoViewProps, 'ref'> & {
   onBufferProgress?: (progress: number) => void;
   onPrepare?: (duration: number) => void;
   isLandscape?: boolean;
+  /**
+   * 是否隐藏返回按钮
+   */
+  isHiddenBack?: boolean;
+  /**
+   * 是否隐藏全屏返回按钮
+   */
+  isHiddenFullBack?: boolean;
 };
 export type VideoPlayerHandler = {
   play: () => void;

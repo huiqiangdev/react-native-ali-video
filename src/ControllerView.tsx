@@ -40,6 +40,8 @@ const ControllerView = ({
   onSliderValueChange,
   onBack,
   title,
+  isHiddenBack = false,
+  isHiddenFullBack = false,
 }: ControllerViewProps) => {
   const [hide, setHide] = useState(false);
   const [width, setWidth] = useState(0);
@@ -138,10 +140,11 @@ const ControllerView = ({
     setWidth(e.nativeEvent.layout.width);
   };
   const renderContainer = () => {
+    const showBack = !isFull && !isHiddenBack;
     if (isLoading) {
       return (
         <>
-          {!isFull && (
+          {showBack && (
             <View style={styles.top}>
               <TouchableOpacity onPress={onBack}>
                 <Image
@@ -161,7 +164,7 @@ const ControllerView = ({
     if (hide) {
       return (
         <>
-          {!isFull && (
+          {showBack && (
             <View style={styles.top}>
               <TouchableOpacity onPress={onBack}>
                 <Image
@@ -183,7 +186,7 @@ const ControllerView = ({
             )}`}</Text>
           </View>
         )}
-        {isFull ? (
+        {isFull && !isHiddenFullBack ? (
           <View style={styles.top}>
             <TouchableOpacity onPress={onFull}>
               <Image
