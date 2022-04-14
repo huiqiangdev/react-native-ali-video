@@ -43,6 +43,7 @@ const ControllerView = ({
   isHiddenBack = false,
   isHiddenFullBack = false,
 }: ControllerViewProps) => {
+  const isMountRef = useRef(true);
   const [hide, setHide] = useState(false);
   const [width, setWidth] = useState(0);
   const [showSliderTips, setShowSliderTips] = useState(false);
@@ -52,6 +53,13 @@ const ControllerView = ({
     setSliderValue(Math.round(value));
     onSliderValueChange?.(value);
   };
+  useEffect(() => {
+    isMountRef.current = true;
+
+    return () => {
+      isMountRef.current = false;
+    };
+  }, []);
   const timeOutRef = useRef<any>();
   useEffect(() => {
     if (!hide && autoHide) {
@@ -60,6 +68,9 @@ const ControllerView = ({
         timeOutRef.current = null;
       }
       timeOutRef.current = setTimeout(() => {
+        if (!isMountRef.current) {
+          return;
+        }
         setHide(true);
       }, 4000);
     }
@@ -83,6 +94,9 @@ const ControllerView = ({
     setSliderValue(Math.round(value));
     /// 结束拖动之后慢慢小时
     setTimeout(() => {
+      if (!isMountRef.current) {
+        return;
+      }
       setShowSliderTips(false);
     }, 500);
   };
@@ -132,6 +146,9 @@ const ControllerView = ({
       setAutoHide(true);
       if (Math.abs(e.translationX) < 15) return;
       setTimeout(() => {
+        if (!isMountRef.current) {
+          return;
+        }
         setShowSliderTips(false);
       }, 500);
       onSliderValueChange?.(sliderValue);
