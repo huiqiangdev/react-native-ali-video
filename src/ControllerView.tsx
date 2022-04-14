@@ -141,6 +141,7 @@ const ControllerView = ({
   };
   const renderContainer = () => {
     const showBack = !isFull && !isHiddenBack;
+    console.log(showBack, isHiddenBack, 'xxx');
     if (isLoading) {
       return (
         <>
@@ -197,14 +198,16 @@ const ControllerView = ({
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.top}>
-            <TouchableOpacity onPress={onBack}>
-              <Image
-                style={styles.topLeftIcon}
-                source={require('./assets/chevron-down.png')}
-              />
-            </TouchableOpacity>
-          </View>
+          !isHiddenBack && (
+            <View style={styles.top}>
+              <TouchableOpacity onPress={onBack}>
+                <Image
+                  style={styles.topLeftIcon}
+                  source={require('./assets/chevron-down.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          )
         )}
         <View style={styles.bottom}>
           <TouchableOpacity onPress={onPressedStart}>
@@ -287,7 +290,7 @@ const styles = StyleSheet.create({
   bottom: {
     position: 'absolute',
     right: 10,
-    bottom: 25,
+    bottom: 15,
     left: 10,
     flexDirection: 'row',
     alignItems: 'center',

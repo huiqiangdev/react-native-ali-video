@@ -56,8 +56,16 @@ const VideoPlayer = forwardRef(
     const [buffer, setBuffer] = useState(0);
     const [complete, setComplete] = useState(false); // 是否加载完成
     const [playSource, setPlaySource] = useState(source);
+    const [innerHiddenBack, setInnerHiddenBack] = useState(isHiddenBack);
+    const [innerHiddenFullBack, setInnerHiddenFullBack] =
+      useState(isHiddenFullBack);
     const { screen, window } = useDimensions();
-
+    useEffect(() => {
+      setInnerHiddenBack(isHiddenBack);
+    }, [isHiddenBack]);
+    useEffect(() => {
+      setInnerHiddenFullBack(isHiddenFullBack);
+    }, [isHiddenFullBack]);
     useImperativeHandle(ref, () => ({
       play: () => {
         handlePlay();
@@ -243,8 +251,8 @@ const VideoPlayer = forwardRef(
           current={currentTime}
           isFull={isFull}
           onFull={onFull}
-          isHiddenBack={isHiddenBack}
-          isHiddenFullBack={isHiddenFullBack}
+          isHiddenBack={innerHiddenBack}
+          isHiddenFullBack={innerHiddenFullBack}
           buffer={buffer}
           isError={false}
           isLoading={loading}
