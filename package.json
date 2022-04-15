@@ -1,6 +1,6 @@
 {
   "name": "react-native-ali-video",
-  "version": "1.10.5",
+  "version": "1.10.6",
   "description": "react-native aliplayer ",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
