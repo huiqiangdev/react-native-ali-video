@@ -158,7 +158,6 @@ const ControllerView = ({
   };
   const renderContainer = () => {
     const showBack = !isFull && !isHiddenBack;
-    console.log(showBack, isHiddenBack, 'xxx');
     if (isLoading) {
       return (
         <>
